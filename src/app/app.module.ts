@@ -9,11 +9,13 @@ import { ReferenciasMaterialModule } from './referencias-material.module';
 import { LoginComponent } from './componentes/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { EmpresaComponent } from './componentes/empresa/empresa.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    EmpresaComponent
   ],
   imports: [
     BrowserModule,

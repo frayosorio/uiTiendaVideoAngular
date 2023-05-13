@@ -3,6 +3,7 @@ import { Usuario } from './modelos/usuario';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './componentes/login/login.component';
 import { UsuarioService } from './servicios/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,15 @@ export class AppComponent {
 
   public usuarioActual: Usuario | null = null;
 
+  public opciones = [
+    { titulo: "Países", url: "pais", icono: "assets/iconos/Pais.png" },
+    { titulo: "Empresas", url: "empresa", icono: "assets/iconos/Empresa.png" },
+    { titulo: "Títulos", url: "titulo", icono: "assets/iconos/Titulo.png" },
+  ];
+
   constructor(public dialog: MatDialog,
     private usuarioService: UsuarioService,
+    private router: Router
   ) {
   }
 
@@ -35,7 +43,8 @@ export class AppComponent {
   }
 
   cerrar() {
-
+    this.usuarioActual = null;
+    this.router.navigate(["inicio"]);
   }
 
 }
