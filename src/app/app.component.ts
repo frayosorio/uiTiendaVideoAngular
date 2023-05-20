@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './componentes/login/login.component';
 import { UsuarioService } from './servicios/usuario.service';
 import { Router } from '@angular/router';
+import { Globales } from './modelos/globales';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +38,7 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe(data => {
       this.usuarioService.login(data.usuario, data.clave).subscribe(response => {
         this.usuarioActual = new Usuario(response.usuario, response.token);
+        Globales.usuario = this.usuarioActual;
       });
     }
     );
@@ -44,6 +46,7 @@ export class AppComponent {
 
   cerrar() {
     this.usuarioActual = null;
+    Globales.usuario = null;
     this.router.navigate(["inicio"]);
   }
 

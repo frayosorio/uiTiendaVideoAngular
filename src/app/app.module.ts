@@ -10,12 +10,15 @@ import { LoginComponent } from './componentes/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EmpresaComponent } from './componentes/empresa/empresa.component';
+import { TituloComponent } from './componentes/titulo/titulo.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    EmpresaComponent
+    EmpresaComponent,
+    TituloComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,6 +27,7 @@ import { EmpresaComponent } from './componentes/empresa/empresa.component';
     ReferenciasMaterialModule,
     FormsModule,
     HttpClientModule,
+    NgxDatatableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
