@@ -29,4 +29,9 @@ export class TituloService {
     return this.http.get<any[]>(urlT, this.obtenerHeader());
   }
 
+  public buscar(nombre: string): Observable<any> {
+    let urlT = `${this.url}/buscar/${nombre}`;
+    return this.http.get<any[]>(urlT, this.obtenerHeader());
+  }
+
 }

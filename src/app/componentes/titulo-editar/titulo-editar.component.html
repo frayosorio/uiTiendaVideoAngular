@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Editando Título de Videojuego</h1>
+<div mat-dialog-content>
+    <p>{{datos.encabezado}}</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="datos.titulo.nombre">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Año</mat-label>
+        <input type="number" matInput [(ngModel)]="datos.titulo.ano">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Protagonistas</mat-label>
+        <textarea matInput [(ngModel)]="datos.titulo.protagonistas"></textarea>
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="cancelar()">Cancelar</button>
+    <button mat-raised-button color="primary" mat-dialog-close (click)="datos" cdkFocusInitial>Aceptar</button>
+</div>

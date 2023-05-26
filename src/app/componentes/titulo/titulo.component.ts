@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
+import { Globales } from 'src/app/modelos/globales';
 import { Titulo } from 'src/app/modelos/titulo';
 import { TituloService } from 'src/app/servicios/titulo.service';
+import { TituloEditarComponent } from '../titulo-editar/titulo-editar.component';
+import { Empresa } from 'src/app/modelos/empresa';
 
 @Component({
   selector: 'app-titulo',
@@ -12,6 +17,7 @@ export class TituloComponent implements OnInit {
 
   public textoBusqueda: string = "";
   public titulos: Titulo[] = [];
+  public empresas: Empresa[] = [];
   public tituloSeleccion: Titulo | undefined;
 
   public columnas = [
@@ -27,12 +33,19 @@ export class TituloComponent implements OnInit {
   public tipoSeleccion = SelectionType;
 
 
-  public constructor(private tituloService: TituloService,) {
+  public constructor(private tituloService: TituloService,
+    private router: Router,
+    public dialog: MatDialog,) {
 
   }
 
   ngOnInit(): void {
-    this.listar();
+    if (Globales.usuario != null) {
+      this.listar();
+    }
+    else {
+      this.router.navigate(["inicio"]);
+    }
   }
 
   public onActivate(event: any) {
@@ -52,6 +65,47 @@ export class TituloComponent implements OnInit {
   }
 
   public buscar() {
+    if (this.textoBusqueda.length > 0) {
+      this.tituloService.buscar(this.textoBusqueda)
+        .subscribe(data => {
+          this.titulos = data;
+        },
+          err => {
+            window.alert(err.message)
+          });
+    }
+    else{
+      this.listar();
+    }
+  }
+
+  public agregar(){
+
+  }
+
+  public modificar(){
+    if (this.tituloSeleccion != null && this.tituloSeleccion.id >= 0) {
+      const dialogRef = this.dialog.open(TituloEditarComponent, {
+        width: '600px',
+        height: '500px',
+        data: {
+          encabezado: `Editando a datos del título [${this.tituloSeleccion.nombre}]`,
+          titulo: this.tituloSeleccion,
+          empresas: this.empresas,
+        }
+      });
+      
+    }
+    else{
+      window.alert("Debe seleccionar un Título");
+    }
+  }
+
+  public verificarEliminar(){
+
+  }
+
+  private eliminar(){
 
   }
 

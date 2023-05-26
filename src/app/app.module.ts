@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EmpresaComponent } from './componentes/empresa/empresa.component';
 import { TituloComponent } from './componentes/titulo/titulo.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TituloEditarComponent } from './componentes/titulo-editar/titulo-editar.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     LoginComponent,
     EmpresaComponent,
     TituloComponent,
+    TituloEditarComponent
   ],
   imports: [
     BrowserModule,
