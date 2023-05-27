@@ -9,7 +9,7 @@ export class Titulo {
     public protagonistas: string;
     public productor: string;
     public director: string;
-    public empresa: Empresa;
+    public empresa: Empresa | null;
     public precio: number;
 
     constructor(id: number,
@@ -18,7 +18,7 @@ export class Titulo {
         protagonistas: string,
         productor: string,
         director: string,
-        empresa: Empresa,
+        empresa: Empresa | null,
         precio: number) {
         this.id = id;
         this.nombre = nombre;

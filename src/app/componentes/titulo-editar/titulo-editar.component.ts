@@ -24,8 +24,4 @@ export class TituloEditarComponent {
 
   }
 
-  public cancelar() {
-
-  }
-
 }

@@ -7,6 +7,9 @@ import { Titulo } from 'src/app/modelos/titulo';
 import { TituloService } from 'src/app/servicios/titulo.service';
 import { TituloEditarComponent } from '../titulo-editar/titulo-editar.component';
 import { Empresa } from 'src/app/modelos/empresa';
+import { EmpresaService } from 'src/app/servicios/empresa.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Pais } from 'src/app/modelos/pais';
 
 @Component({
   selector: 'app-titulo',
@@ -34,6 +37,7 @@ export class TituloComponent implements OnInit {
 
 
   public constructor(private tituloService: TituloService,
+    private empresaService: EmpresaService,
     private router: Router,
     public dialog: MatDialog,) {
 
@@ -42,6 +46,7 @@ export class TituloComponent implements OnInit {
   ngOnInit(): void {
     if (Globales.usuario != null) {
       this.listar();
+      this.listarEmpresas();
     }
     else {
       this.router.navigate(["inicio"]);
@@ -58,6 +63,21 @@ export class TituloComponent implements OnInit {
     this.tituloService.listar()
       .subscribe(data => {
         this.titulos = data;
+
+        this.titulos.forEach(titulo => {
+          titulo.ano = titulo.año;
+        });
+
+      },
+        err => {
+          window.alert(err.message)
+        });
+  }
+
+  public listarEmpresas() {
+    this.empresaService.listar()
+      .subscribe(data => {
+        this.empresas = data;
       },
         err => {
           window.alert(err.message)
@@ -74,16 +94,31 @@ export class TituloComponent implements OnInit {
             window.alert(err.message)
           });
     }
-    else{
+    else {
       this.listar();
     }
   }
 
-  public agregar(){
+  public agregar() {
+    const dialogRef = this.dialog.open(TituloEditarComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        encabezado: `Agregando nuevo Título de Videojuego`,
+        titulo: new Titulo(0, "", 0, "", "", "", new Empresa(0, "", new Pais(0, "", "", "")), 0),
+        empresas: this.empresas,
+      }
+    });
 
+    dialogRef.afterClosed().subscribe((datos) => {
+      this.guardar(datos.titulo);
+    }, err => {
+      window.alert(err.message)
+    }
+    );
   }
 
-  public modificar(){
+  public modificar() {
     if (this.tituloSeleccion != null && this.tituloSeleccion.id >= 0) {
       const dialogRef = this.dialog.open(TituloEditarComponent, {
         width: '600px',
@@ -94,18 +129,40 @@ export class TituloComponent implements OnInit {
           empresas: this.empresas,
         }
       });
-      
+
+      dialogRef.afterClosed().subscribe((datos) => {
+        this.guardar(datos.titulo);
+      }, err => {
+        window.alert(err.message)
+      }
+      );
+
     }
-    else{
+    else {
       window.alert("Debe seleccionar un Título");
     }
   }
 
-  public verificarEliminar(){
+  private guardar(titulo: Titulo) {
+    if (titulo.id==0){
+
+    }
+    else{
+      this.tituloService.actualizar(titulo).subscribe(tituloActualizado =>{
+        this.listar();
+        window.alert("Los datos del Título de Videojuego fueron actualizados");
+      },
+      (err: HttpErrorResponse) => {
+        window.alert(`Error actualizando Título de Videojuego: [${err.message}]`);
+      });
+    }
+  }
+
+  public verificarEliminar() {
 
   }
 
-  private eliminar(){
+  private eliminar() {
 
   }
 
