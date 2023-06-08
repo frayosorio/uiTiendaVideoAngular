@@ -10,6 +10,7 @@ import { Empresa } from 'src/app/modelos/empresa';
 import { EmpresaService } from 'src/app/servicios/empresa.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Pais } from 'src/app/modelos/pais';
+import { DecidirComponent } from '../decidir/decidir.component';
 
 @Component({
   selector: 'app-titulo',
@@ -111,7 +112,9 @@ export class TituloComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((datos) => {
-      this.guardar(datos.titulo);
+      if (datos) {
+        this.guardar(datos.titulo);
+      }
     }, err => {
       window.alert(err.message)
     }
@@ -131,7 +134,9 @@ export class TituloComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((datos) => {
-        this.guardar(datos.titulo);
+        if (datos) {
+          this.guardar(datos.titulo);
+        }
       }, err => {
         window.alert(err.message)
       }
@@ -144,26 +149,68 @@ export class TituloComponent implements OnInit {
   }
 
   private guardar(titulo: Titulo) {
-    if (titulo.id==0){
-
+    titulo.año = titulo.ano;
+    if (titulo.id == 0) {
+      this.tituloService.agregar(titulo).subscribe(tituloActualizado => {
+        this.listar();
+        window.alert("Los datos del Título de Videojuego fueron agregados");
+      },
+        (err: HttpErrorResponse) => {
+          window.alert(`Error agregando el Título de Videojuego: [${err.message}]`);
+        });
     }
-    else{
-      this.tituloService.actualizar(titulo).subscribe(tituloActualizado =>{
+    else {
+      this.tituloService.actualizar(titulo).subscribe(tituloActualizado => {
         this.listar();
         window.alert("Los datos del Título de Videojuego fueron actualizados");
       },
-      (err: HttpErrorResponse) => {
-        window.alert(`Error actualizando Título de Videojuego: [${err.message}]`);
-      });
+        (err: HttpErrorResponse) => {
+          window.alert(`Error actualizando Título de Videojuego: [${err.message}]`);
+        });
     }
   }
 
   public verificarEliminar() {
+    if (this.tituloSeleccion != null && this.tituloSeleccion.id >= 0) {
+      const dialogRef = this.dialog.open(DecidirComponent, {
+        width: '400px',
+        height: '200px',
+        data: {
+          titulo: `Eliminando registro del título [${this.tituloSeleccion.nombre}]`,
+          mensaje: "Está seguro?",
+          id: this.tituloSeleccion.id,
+        }
+      });
 
+      dialogRef.afterClosed().subscribe(datos => {
+        if (datos) {
+          this.eliminar(datos.id);
+        }
+      },
+        err => {
+          window.alert(err.message)
+        });
+
+    }
+    else {
+      window.alert("Debe seleccionar un Título");
+    }
   }
 
-  private eliminar() {
-
+  private eliminar(id: number) {
+    this.tituloService.eliminar(id).subscribe(response => {
+      if (response == true) {
+        this.listar();
+        window.alert("El registro del Título de Videojuego fue eliminado");
+      }
+      else {
+        window.alert("No se pudo eliminar el registro del Título de Videojuego");
+      }
+    },
+      error => {
+        window.alert(error.message)
+      }
+    );
   }
 
 }

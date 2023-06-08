@@ -3,19 +3,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Globales } from '../modelos/globales';
-import { Titulo } from '../modelos/titulo';
+import { Pais } from '../modelos/pais';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TituloService {
+export class PaisService {
 
   url: string;
 
   constructor(
     private http: HttpClient
   ) {
-    this.url = `${environment.urlBase}titulos`;
+    this.url = `${environment.urlBase}paises`;
   }
 
   public obtenerHeader() {
@@ -35,14 +35,14 @@ export class TituloService {
     return this.http.get<any[]>(urlT, this.obtenerHeader());
   }
 
-  public agregar(titulo: Titulo): Observable<any> {
+  public agregar(pais: Pais): Observable<any> {
     let urlT = this.url + "/agregar";
-    return this.http.post<any>(urlT, titulo, this.obtenerHeader());
+    return this.http.post<any>(urlT, pais, this.obtenerHeader());
   }
 
-  public actualizar(titulo: Titulo): Observable<any> {
+  public actualizar(pais: Pais): Observable<any> {
     let urlT = this.url + "/modificar";
-    return this.http.put<any>(urlT, titulo, this.obtenerHeader());
+    return this.http.put<any>(urlT, pais, this.obtenerHeader());
   }
   
   public eliminar(id: number): Observable<any> {

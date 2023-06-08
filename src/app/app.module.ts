@@ -13,14 +13,18 @@ import { EmpresaComponent } from './componentes/empresa/empresa.component';
 import { TituloComponent } from './componentes/titulo/titulo.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TituloEditarComponent } from './componentes/titulo-editar/titulo-editar.component';
+import { DecidirComponent } from './componentes/decidir/decidir.component';
+import { EmpresaEditarComponent } from './componentes/empresa-editar/empresa-editar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     EmpresaComponent,
+    EmpresaEditarComponent,
     TituloComponent,
-    TituloEditarComponent
+    TituloEditarComponent,
+    DecidirComponent
   ],
   imports: [
     BrowserModule,
